@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PickListModule, PickListMoveToSourceEvent, PickListMoveToTargetEvent } from 'primeng/picklist';
+import { PickListModule } from 'primeng/picklist';
 import { products } from './data/products.data';
 import { Product } from './interfaces/interfaces';
 import { CommonModule } from '@angular/common';
@@ -16,13 +16,7 @@ import { LocalStorageService } from './services/localstorage.service';
 
 export class AppComponent {
   products = products;
-
-  // onListCheckboxChange(event: any): void {
-  //   console.log(event);
-  // }
-
   sourceProducts: Product[];
-
   targetProducts: Product[];
 
   constructor(private localStorageService: LocalStorageService) { }
@@ -45,30 +39,18 @@ export class AppComponent {
     }
   }
 
-  getPrice(p: Product, shop: 'cf' | 'basko'): string {
-    const price: string = p[shop].price ? ` ${this.getKgPrice(p, shop)}€` : 'N/A';
-    const brand: string = p[shop].brand ? ` (${p[shop].brand})` : '';
-
-
-    return `${brand}: ${price}`;
-  }
-
-  getKgPrice(p: Product, shop: 'cf' | 'basko'): string {
-    return (1000 / p[shop].qty * p[shop].price).toFixed(2);
-  }
-
   getClass(p: Product, shop: 'cf' | 'basko'): string {
     // Current shop has no price, other one is better
     if (!p[shop].price) {
       return 'red';
-    } 
+    }
 
     const otherShop: 'cf' | 'basko' = shop === 'basko' ? 'cf' : 'basko';
 
     // Other shop has no price, current shop is the best one
     if (!p[otherShop].price) {
       return 'green';
-    } 
+    }
 
     // Get the proper class when both shops have a proper price
     if (this.getKgPrice(p, shop) < this.getKgPrice(p, otherShop)) {
@@ -80,17 +62,20 @@ export class AppComponent {
     }
   }
 
+  getKgPrice(p: Product, shop: 'cf' | 'basko'): string {
+    return (1000 / p[shop].qty * p[shop].price).toFixed(2);
+  }
+
+  getPrice(p: Product, shop: 'cf' | 'basko'): string {
+    const price: string = p[shop].price ? ` ${this.getKgPrice(p, shop)}€` : 'N/A';
+    const brand: string = p[shop].brand ? ` (${p[shop].brand})` : '';
+
+
+    return `${brand}: ${price}`;
+  }
+
   updateLocalStorageAfterMove(): void {
     this.localStorageService.setItem('sourceProducts', this.sourceProducts);
     this.localStorageService.setItem('targetProducts', this.targetProducts);
   }
-
-  // onMoveToSource(ev: PickListMoveToSourceEvent): void {
-  //   ev.items.forEach(item => {
-  //     const idx: number = this.targetProducts.findIndex(p => p.name === item.name);
-  //     this.sourceProducts.push(this.targetProducts.splice(idx, 1)[0]);
-  //   });
-
-  //   this.updateLocalStorageAfterMove();
-  // }
 }
