@@ -16,16 +16,16 @@ export const products: Product[] =
       }
     },
     {
-      "name": "Aranciata Santal",
+      "name": "Aranciata rossa",
       "basko": {
         "brand": null,
         "qty": null,
         "price": null,
       },
       "cf": {
-        "brand": "Carrefour",
+        "brand": "Bravo",
         "qty": 1000,
-        "price": 1.79,
+        "price": 1.89,
       }
     },
     {
@@ -68,9 +68,9 @@ export const products: Product[] =
       }
     },
     {
-      "name": "Concentrato Cirio",
+      "name": "Concentrato",
       "basko": {
-        "brand": null,
+        "brand": "Cirio",
         "qty": 140,
         "price": 1.25,
       },
@@ -138,19 +138,6 @@ export const products: Product[] =
         "brand": "Primia",
         "qty": 1000,
         "price": 1.39,
-      },
-      "cf": {
-        "brand": null,
-        "qty": null,
-        "price": null,
-      }
-    },
-    {
-      "name": "Latte UHT",
-      "basko": {
-        "brand": null,
-        "qty": null,
-        "price": null,
       },
       "cf": {
         "brand": "Carrefour",
@@ -224,14 +211,14 @@ export const products: Product[] =
       }
     },
     {
-      "name": "Passata Cirio",
+      "name": "Passata",
       "basko": {
-        "brand": null,
+        "brand": "Cirio",
         "qty": 540,
         "price": 1.39,
       },
       "cf": {
-        "brand": null,
+        "brand": "Cirio",
         "qty": 540,
         "price": 1.39,
       }
@@ -276,7 +263,7 @@ export const products: Product[] =
       }
     },
     {
-      "name": "Philadeplhia",
+      "name": "Philadelphia",
       "basko": {
         "brand": null,
         "qty": 150,
@@ -421,9 +408,9 @@ export const products: Product[] =
     {
       "name": "Wurstel",
       "basko": {
-        "brand": "Podere x6",
-        "qty": 360,
-        "price": 1.59,
+        "brand": null,
+        "qty": null,
+        "price": null,
       },
       "cf": {
         "brand": "Simply x3",

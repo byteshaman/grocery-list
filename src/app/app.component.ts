@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PickListModule } from 'primeng/picklist';
 import { products } from './data/products.data';
-import { Product } from './interfaces/interfaces';
+import { Product, Shop } from './interfaces/interfaces';
 import { CommonModule } from '@angular/common';
 import { LocalStorageService } from './services/localstorage.service';
 
@@ -39,13 +39,13 @@ export class AppComponent {
     }
   }
 
-  getClass(p: Product, shop: 'cf' | 'basko'): string {
+  getClass(p: Product, shop: Shop): string {
     // Current shop has no price, other one is better
     if (!p[shop].price) {
       return 'red';
     }
 
-    const otherShop: 'cf' | 'basko' = shop === 'basko' ? 'cf' : 'basko';
+    const otherShop: Shop = shop === 'basko' ? 'cf' : 'basko';
 
     // Other shop has no price, current shop is the best one
     if (!p[otherShop].price) {
@@ -62,14 +62,13 @@ export class AppComponent {
     }
   }
 
-  getKgPrice(p: Product, shop: 'cf' | 'basko'): string {
+  getKgPrice(p: Product, shop: Shop): string {
     return (1000 / p[shop].qty * p[shop].price).toFixed(2);
   }
 
-  getPrice(p: Product, shop: 'cf' | 'basko'): string {
+  getInfo(p: Product, shop: Shop): string {
     const price: string = p[shop].price ? ` ${this.getKgPrice(p, shop)}€` : 'N/A';
     const brand: string = p[shop].brand ? ` (${p[shop].brand})` : '';
-
 
     return `${brand}: ${price}`;
   }

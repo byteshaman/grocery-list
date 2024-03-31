@@ -4,28 +4,23 @@
   [showSourceControls]="false"
   (onMoveToTarget)="updateLocalStorageAfterMove()"
   (onMoveAllToTarget)="updateLocalStorageAfterMove()"
-  [sourceStyle]="{ height: '90vh' }"
+  [sourceStyle]="{ maxHeight: '90vh' }"
 
   [target]="targetProducts"  
   targetHeader="Prodotti da Acquistare"
   [showTargetControls]="false"
   (onMoveToSource)="updateLocalStorageAfterMove()"
   (onMoveAllToSource)="updateLocalStorageAfterMove()"
-  [targetStyle]="{ height: '90vh' }"
+  [targetStyle]="{ maxHeight: '90vh' }"
 
   [responsive]="true" 
   
   breakpoint="30px">
   <ng-template let-product pTemplate="item">
-    <!-- <div class="flex flex-wrap p-2 align-items-center gap-3">
-      <div class="flex-1 flex flex-column gap-2"> -->
-        <span class="font-bold">{{ product.name }}</span>
-      <!-- </div> -->
+      <span class="font-bold">{{ product.name }}</span>
       <ul>
-        <li [ngClass]="getClass(product, 'basko')">Basko{{ getPrice(product, 'basko') }}</li>
-        <li [ngClass]="getClass(product, 'cf')">Cf{{ getPrice(product, 'cf') }}</li>
+        <li [ngClass]="getClass(product, 'basko')">Basko{{ getInfo(product, 'basko') }}</li>
+        <li [ngClass]="getClass(product, 'cf')">Cf{{ getInfo(product, 'cf') }}</li>
       </ul>
-      <span class="font-bold text-900"></span>
-    <!-- </div> -->
   </ng-template>
 </p-pickList>
