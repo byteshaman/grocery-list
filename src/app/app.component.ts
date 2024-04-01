@@ -1,8 +1,17 @@
-import { Component } from '@angular/core';
+// Angular & RxJS
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Observable, firstValueFrom } from 'rxjs';
+
+// PrimeNG
 import { PickListModule } from 'primeng/picklist';
+
+// Firebase
+import { Firestore, addDoc, collection, collectionData, doc, setDoc } from '@angular/fire/firestore';
+
+// My Stuff
 import { products } from './data/products.data';
 import { Product, Shop } from './interfaces/interfaces';
-import { CommonModule } from '@angular/common';
 import { LocalStorageService } from './services/localstorage.service';
 
 
@@ -15,19 +24,38 @@ import { LocalStorageService } from './services/localstorage.service';
 })
 
 export class AppComponent {
-  products = products;
+  products: Product[];
+  products$: Observable<Product[]>;
+
   sourceProducts: Product[];
   targetProducts: Product[];
 
-  constructor(private localStorageService: LocalStorageService) { }
+  firestore: Firestore = inject(Firestore);
 
-  ngOnInit(): void {
+  constructor(private localStorageService: LocalStorageService) {
+    const productsCollection = collection(this.firestore, 'products');
+
+    // Get data from DB
+    this.products$ = collectionData(productsCollection) as Observable<Product[]>;
+  }
+
+  async addProducts() {
+    for await (const product of products) {
+      await setDoc(doc(this.firestore, "products", product.name), product); //setDoc needs an ID
+      // await addDoc(collection(this.firestore, "products"), product); //addDoc generates an ID
+    } 
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.products = await firstValueFrom(this.products$)
+    // await this.addProducts();
+
     // Initialize source products in local storage
     if (this.localStorageService.getItem('sourceProducts')) {
       this.sourceProducts = this.localStorageService.getItem('sourceProducts');
     } else {
-      this.sourceProducts = products;
-      this.localStorageService.setItem('sourceProducts', products);
+      this.sourceProducts = this.products;
+      this.localStorageService.setItem('sourceProducts', this.products);
     }
 
     // Initialize target products in local storage
